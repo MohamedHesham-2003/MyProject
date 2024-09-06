@@ -1,0 +1,41 @@
+►
+<form action="" method="" enctype="multipart/form-data">
+
+</form>
+
+▬ enctype="multipart/form-data" // تقدر ترفع نص أو صورة أو فيديو مع بعض ولو مكتبتهاش مش هتعرف ترفع الصورة 
+
+
+► Handling the image upload
+▬  $Image=$_FILES['image'];
+- This line retrieves the entire array of information related to the uploaded file.
+
+▬ $image_location=$_FILES['image']['tmp_name'];
+- الصورة والإمتداد الخاص بيها 
+- This line extracts the temporary location on the server where the uploaded file is stored.
+- After a file is uploaded, PHP temporarily stores it in a directory on the server. The exact location is given by $_FILES['image']['tmp_name'].
+- This temporary file will be deleted automatically after the script ends, so it needs to be moved to a permanent location if you want to keep it.
+
+▬ $image_name=$_FILES['image']['name'];
+- الصورة واسمها
+- This line retrieves the original name of the uploaded file.
+
+▬ $image_up= "images/".$image_name;
+- This line constructs the path where the uploaded image will be stored.
+- "images/" is a directory in your project where you intend to save the uploaded images.
+- By concatenating "images/" with $image_name, you create a full path like "images/example.jpg", where example.jpg is the name of the uploaded file.
+- This path ($image_up) is the location where the file will be moved to using the move_uploaded_file() function.
+
+▬ if (move_uploaded_file($image_location, $image_up)) {
+    // Success: The file has been moved from its temporary location to the target directory.
+    echo "<script>alert('تم رفع المنتج بنجاح')</script>";
+} else {
+    // Failure: The file could not be moved, possibly due to permission issues.
+    echo "<script>alert('لم يتم رفع المنتج, لقد حدث خطأ ما!')</script>";
+}
+- move_uploaded_file($image_location, $image_up);: This function moves the file from the temporary location to the final destination ($image_up).
+- Purpose of $image_up in SQL: The path to the uploaded image is saved in the database, so you can later display the image on your website.
+
+
+► header('location: index.php');
+- بحيث لما ترسل البيانات مينقلكش على صفحة تانية وتفضل في الصفحة بتاعت الإندكس
